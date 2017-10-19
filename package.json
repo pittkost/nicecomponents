@@ -1,15 +1,15 @@
 {
+  "name": "nicecomponents",
+  "description": "This is a simple vanilla JavaScript library for making encapsulated components. Using Nice Components it's easy to manage events and keep your code well organized.",
+  "version": "0.1.5",
   "scripts": {
-    "build": "./node_modules/.bin/babel ./nicecomponents.js --out-dir dist --presets=es2015 --plugins=add-module-exports"
+    "build": "./node_modules/.bin/babel ./*.js --out-dir dist --presets=es2015 --plugins=add-module-exports"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.24.1"
   },
-  "name": "nicecomponents",
-  "description": "This is a simple vanilla JavaScript library for making encapsulated components. Using Nice Components it's easy to manage events and keep your code well organized.",
-  "version": "0.1.4",
   "main": "dist/nicecomponents.js",
   "repository": {
     "type": "git",
