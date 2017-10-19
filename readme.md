@@ -10,7 +10,7 @@ With NiceComponents we attach encapsulated JavaScript logic to HTML node, by add
 Once `NiceComponents` is called, it will browse your DOM and apply the proper components from the collection of objects passed as it's argument.
 ```
 import NiceComponents from 'nicecomponents'
-import Component from 'nicecomponents/component'
+import { Component } from 'nicecomponents'
 
 NiceComponents({
   RemoveOnClick: class extends Component {

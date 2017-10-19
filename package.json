@@ -9,7 +9,7 @@
   },
   "name": "nicecomponents",
   "description": "This is a simple vanilla JavaScript library for making encapsulated components. Using Nice Components it's easy to manage events and keep your code well organized.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/nicecomponents.js",
   "repository": {
     "type": "git",
