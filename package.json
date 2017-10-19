@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "build": "./node_modules/.bin/babel ./nicecomponents.js --out-dir dist --presets=es2015 --plugins=add-module-exports"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "name": "nicecomponents",
+  "description": "This is a simple vanilla JavaScript library for making encapsulated components. Using Nice Components it's easy to manage events and keep your code well organized.",
+  "version": "0.1.0",
+  "main": "dist/nicecomponents.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pittkost/nicecomponents.git"
+  },
+  "keywords": [
+    "javascript",
+    "vanilla",
+    "components",
+    "html",
+    "dom"
+  ],
+  "author": "Piotr Kostrzewa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pittkost/nicecomponents/issues"
+  },
+  "homepage": "https://github.com/pittkost/nicecomponents#readme"
+}

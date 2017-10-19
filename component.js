@@ -1,0 +1,51 @@
+let getComponentsFromNodes = (node, nodes = []) => {
+  nodes = [].slice.call(nodes)
+  if (nodes.indexOf(node) > -1) {
+    nodes.splice(nodes.indexOf(node), 1)
+  }
+  let components = []
+  nodes.forEach((node) => {
+    if (node.$component) {
+      components.push(node.$component)
+    }
+  })
+  return components
+}
+
+export default class {
+  constructor(node) {
+    this.$node = node
+    this.init()
+    Object.getOwnPropertyNames(this.__proto__).forEach((property) => {
+      if (property.charAt(0) === '@') {
+        this.$node.addEventListener(property.substring(1), this[property].bind(this))
+      }
+    })
+  }
+  init() {}
+  $findSiblings(componentName) {
+    let query = componentName ? `:scope > [data-component='${componentName}']` : ':scope > [data-component]'
+    return getComponentsFromNodes(this.$node, this.$node.parentNode.querySelectorAll(query))
+  }
+  get $siblings() {
+    return this.$findSiblings()
+  }
+  $findChildren(componentName) {
+    let query = componentName ? `:scope [data-component='${componentName}']` : ':scope [data-component]'
+    return getComponentsFromNodes(this.$node, this.$node.querySelectorAll(query))
+  }
+  get $children() {
+    return this.$findChildren()
+  }
+  $findParent(componentName) {
+    let query = componentName ? `[data-component='${componentName}']` : '[data-component]'
+    let node = this.$node.parentElement
+    while(node && !node.matches(query)) {
+      node = node.parentElement
+    }
+    return node ? node.$component : undefined
+  }
+  get $parent() {
+    return this.$findParent()
+  }
+}
