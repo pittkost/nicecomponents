@@ -7,26 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (components) {
   window.$components = [];
 
-  document.body.addEventListener('DOMSubtreeModified', function (event) {
-    var nodes = event.target.querySelectorAll('[data-component]');
-
-    nodes.forEach(function (node) {
-      var componentName = node.dataset.component;
-
-      if (!node.$component) {
-        if (components[componentName]) {
-          try {
-            node.$component = new components[componentName](node);
-            window.$components.push(node.$component);
-          } catch (error) {
-            console.warn(componentName + ' is not a valid component');
-          }
-        } else {
-          console.warn(componentName + ' does not exist in components registry');
-        }
-      }
+  new MutationObserver(function (records) {
+    records.forEach(function (record) {
+      var nodes = record.target.querySelectorAll('[data-component]');
+      bindComponentsToNodes(nodes, components);
     });
-  }, false);
+  }).observe(document.body, { childList: true, subtree: true });
 };
 
 var _component = require('./component');
@@ -39,3 +25,18 @@ Object.defineProperty(exports, 'Component', {
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function bindComponentsToNodes(nodes, components) {
+  nodes.forEach(function (node) {
+    var componentName = node.dataset.component;
+
+    if (!node.$component) {
+      if (components[componentName]) {
+        node.$component = new components[componentName](node);
+        window.$components.push(node.$component);
+      } else {
+        console.warn(componentName + ' does not exist in components registry');
+      }
+    }
+  });
+}
