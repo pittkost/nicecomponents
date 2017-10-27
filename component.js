@@ -12,11 +12,21 @@ let getComponentsFromNodes = (node, nodes = []) => {
   return components
 }
 
+let getPropertiesFromPrototypesChain = (object, parentProperties = []) => {
+  let properties = Object.getOwnPropertyNames(object.__proto__).concat(parentProperties)
+
+  if (object.__proto__.constructor && object.__proto__.constructor.name !== '_class') {
+    properties = getPropertiesFromPrototypesChain(object.__proto__, properties)
+  }
+
+  return properties
+}
+
 export default class {
   constructor(node) {
     this.$node = node
     this.init()
-    Object.getOwnPropertyNames(this.__proto__).forEach((property) => {
+    getPropertiesFromPrototypesChain(this).forEach((property) => {
       if (property.charAt(0) === '@') {
         this.$node.addEventListener(property.substring(1), this[property].bind(this))
       }
