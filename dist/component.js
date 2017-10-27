@@ -24,6 +24,18 @@ var getComponentsFromNodes = function getComponentsFromNodes(node) {
   return components;
 };
 
+var getPropertiesFromPrototypesChain = function getPropertiesFromPrototypesChain(object) {
+  var parentProperties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+  var properties = Object.getOwnPropertyNames(object.__proto__).concat(parentProperties);
+
+  if (object.__proto__.constructor && object.__proto__.constructor.name !== '_class') {
+    properties = getPropertiesFromPrototypesChain(object.__proto__, properties);
+  }
+
+  return properties;
+};
+
 var _class = function () {
   function _class(node) {
     var _this = this;
@@ -32,7 +44,7 @@ var _class = function () {
 
     this.$node = node;
     this.init();
-    Object.getOwnPropertyNames(this.__proto__).forEach(function (property) {
+    getPropertiesFromPrototypesChain(this).forEach(function (property) {
       if (property.charAt(0) === '@') {
         _this.$node.addEventListener(property.substring(1), _this[property].bind(_this));
       }
