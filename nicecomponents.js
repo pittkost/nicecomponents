@@ -1,5 +1,7 @@
+import _ from 'lodash'
+
 function bindComponentsToNodes(nodes, components) {
-  nodes.forEach((node) => {
+  _.each(nodes, (node) => {
     let componentName = node.dataset.component
 
     if (!node.$component) {
@@ -17,7 +19,7 @@ export default function(components) {
   window.$components = []
 
   new MutationObserver((records) => {
-    records.forEach((record) => {
+    _.each(records, (record) => {
       let nodes = record.target.querySelectorAll('[data-component]')
       bindComponentsToNodes(nodes, components)
     })

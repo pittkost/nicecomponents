@@ -3,12 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Component = undefined;
 
 exports.default = function (components) {
   window.$components = [];
 
   new MutationObserver(function (records) {
-    records.forEach(function (record) {
+    _lodash2.default.each(records, function (record) {
       var nodes = record.target.querySelectorAll('[data-component]');
       bindComponentsToNodes(nodes, components);
     });
@@ -24,10 +25,14 @@ Object.defineProperty(exports, 'Component', {
   }
 });
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function bindComponentsToNodes(nodes, components) {
-  nodes.forEach(function (node) {
+  _lodash2.default.each(nodes, function (node) {
     var componentName = node.dataset.component;
 
     if (!node.$component) {

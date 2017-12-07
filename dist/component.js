@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var getComponentsFromNodes = function getComponentsFromNodes(node) {
@@ -16,7 +22,7 @@ var getComponentsFromNodes = function getComponentsFromNodes(node) {
     nodes.splice(nodes.indexOf(node), 1);
   }
   var components = [];
-  nodes.forEach(function (node) {
+  _lodash2.default.each(nodes, function (node) {
     if (node.$component) {
       components.push(node.$component);
     }
@@ -44,7 +50,7 @@ var _class = function () {
 
     this.$node = node;
     this.init();
-    getPropertiesFromPrototypesChain(this).forEach(function (property) {
+    _lodash2.default.each(getPropertiesFromPrototypesChain(this), function (property) {
       if (property.charAt(0) === '@') {
         _this.$node.addEventListener(property.substring(1), _this[property].bind(_this));
       }

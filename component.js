@@ -1,10 +1,12 @@
+import _ from 'lodash'
+
 let getComponentsFromNodes = (node, nodes = []) => {
   nodes = [].slice.call(nodes)
   if (nodes.indexOf(node) > -1) {
     nodes.splice(nodes.indexOf(node), 1)
   }
   let components = []
-  nodes.forEach((node) => {
+  _.each(nodes, (node) => {
     if (node.$component) {
       components.push(node.$component)
     }
@@ -26,7 +28,7 @@ export default class {
   constructor(node) {
     this.$node = node
     this.init()
-    getPropertiesFromPrototypesChain(this).forEach((property) => {
+    _.each(getPropertiesFromPrototypesChain(this), (property) => {
       if (property.charAt(0) === '@') {
         this.$node.addEventListener(property.substring(1), this[property].bind(this))
       }
