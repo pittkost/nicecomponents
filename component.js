@@ -1,5 +1,9 @@
 import _ from 'lodash'
 
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector
+}
+
 let getComponentsFromNodes = (node, nodes = []) => {
   nodes = [].slice.call(nodes)
   if (nodes.indexOf(node) > -1) {
@@ -14,11 +18,15 @@ let getComponentsFromNodes = (node, nodes = []) => {
   return components
 }
 
-let getPropertiesFromPrototypesChain = (object, parentProperties = []) => {
-  let properties = Object.getOwnPropertyNames(object.__proto__).concat(parentProperties)
+let getPropertiesFromPrototypesChain = (obj, parentProperties = []) => {
+  if (obj == null || (typeof obj !== 'object') || !obj.__proto__) {
+    return
+  }
 
-  if (object.__proto__.constructor && object.__proto__.constructor.name !== '_class') {
-    properties = getPropertiesFromPrototypesChain(object.__proto__, properties)
+  var properties = Object.getOwnPropertyNames(obj.__proto__).concat(parentProperties)
+
+  if (obj.__proto__.constructor && obj.__proto__.constructor.name !== '_class') {
+    properties = getPropertiesFromPrototypesChain(obj.__proto__, properties)
   }
 
   return properties
@@ -34,7 +42,7 @@ export default class {
       }
     })
   }
-  init() {}
+  init() { }
   $findSiblings(componentName) {
     let query = componentName ? `:scope > [data-component='${componentName}']` : ':scope > [data-component]'
     return getComponentsFromNodes(this.$node, this.$node.parentNode.querySelectorAll(query))
@@ -52,7 +60,7 @@ export default class {
   $findParent(componentName) {
     let query = componentName ? `[data-component='${componentName}']` : '[data-component]'
     let node = this.$node.parentElement
-    while(node && !node.matches(query)) {
+    while (node && !node.matches(query)) {
       node = node.parentElement
     }
     return node ? node.$component : undefined
