@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -13,6 +15,10 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector;
+}
 
 var getComponentsFromNodes = function getComponentsFromNodes(node) {
   var nodes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -30,13 +36,17 @@ var getComponentsFromNodes = function getComponentsFromNodes(node) {
   return components;
 };
 
-var getPropertiesFromPrototypesChain = function getPropertiesFromPrototypesChain(object) {
+var getPropertiesFromPrototypesChain = function getPropertiesFromPrototypesChain(obj) {
   var parentProperties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
-  var properties = Object.getOwnPropertyNames(object.__proto__).concat(parentProperties);
+  if (obj == null || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' || !obj.__proto__) {
+    return;
+  }
 
-  if (object.__proto__.constructor && object.__proto__.constructor.name !== '_class') {
-    properties = getPropertiesFromPrototypesChain(object.__proto__, properties);
+  var properties = Object.getOwnPropertyNames(obj.__proto__).concat(parentProperties);
+
+  if (obj.__proto__.constructor && obj.__proto__.constructor.name !== '_class') {
+    properties = getPropertiesFromPrototypesChain(obj.__proto__, properties);
   }
 
   return properties;
