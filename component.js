@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import 'element-qsa-scope'
 
 if (!Element.prototype.matches) {
   Element.prototype.matches = Element.prototype.msMatchesSelector
