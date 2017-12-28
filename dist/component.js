@@ -42,7 +42,7 @@ var getPropertiesFromPrototypesChain = function getPropertiesFromPrototypesChain
   var parentProperties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
   if (obj == null || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object' || !obj.__proto__) {
-    return;
+    return parentProperties;
   }
 
   var properties = Object.getOwnPropertyNames(obj.__proto__).concat(parentProperties);

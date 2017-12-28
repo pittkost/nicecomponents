@@ -21,7 +21,7 @@ let getComponentsFromNodes = (node, nodes = []) => {
 
 let getPropertiesFromPrototypesChain = (obj, parentProperties = []) => {
   if (obj == null || (typeof obj !== 'object') || !obj.__proto__) {
-    return
+    return parentProperties
   }
 
   var properties = Object.getOwnPropertyNames(obj.__proto__).concat(parentProperties)
